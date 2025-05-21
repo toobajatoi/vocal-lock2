@@ -23,6 +23,30 @@ Install dependencies with:
 pip install -r requirements.txt
 ```
 
+## Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/toobajatoi/vocal-lock2.git
+cd vocal-lock2
+```
+
+2. Create and activate a virtual environment:
+```bash
+# Windows
+python -m venv venv
+.\venv\Scripts\activate
+
+# Linux/Mac
+python -m venv venv
+source venv/bin/activate
+```
+
+3. Install the required packages:
+```bash
+pip install -r requirements.txt
+```
+
 ## Usage
 
 ### Command Line
@@ -37,7 +61,25 @@ Run the app with:
 streamlit run app.py
 ```
 
-Follow the on-screen instructions to enroll or authenticate users.
+The web interface will be available at `http://localhost:8501`
+
+### User Enrollment
+
+1. Click on "Enroll New User" in the web interface
+2. Enter a username
+3. Click "Start Recording" and speak your passphrase
+4. Wait for the enrollment process to complete
+
+### Voice Authentication
+
+1. Click on "Authenticate User" in the web interface
+2. Enter your username
+3. Click "Start Recording" and speak your passphrase
+4. Wait for the authentication process to complete
+
+### Listing Users
+
+Click on "List Users" in the web interface to see all enrolled users.
 
 ## Data Storage
 - User data (voice features and passphrases) are stored in `voice_data/voice_data.json`.
