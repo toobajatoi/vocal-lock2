@@ -1,6 +1,6 @@
 import os
 import json
-import openai_whisper as whisper
+import whisper
 import numpy as np
 import soundfile as sf
 import sounddevice as sd
@@ -10,7 +10,7 @@ class VoiceEnroller:
     def __init__(self, storage_path='voice_data'):
         self.storage_path = storage_path
         self.json_file = os.path.join(storage_path, 'voice_data.json')
-        self.model = whisper.load_model("base")
+        self.model = whisper.load_model("base", device="cpu")
         os.makedirs(storage_path, exist_ok=True)
         
         # Initialize JSON file if it doesn't exist

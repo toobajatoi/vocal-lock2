@@ -11,7 +11,7 @@ class VoiceAuthenticator:
     def __init__(self, storage_path='voice_data'):
         self.storage_path = storage_path
         self.json_file = os.path.join(storage_path, 'voice_data.json')
-        self.model = whisper.load_model("base")
+        self.model = whisper.load_model("base", device="cpu")
         os.makedirs(storage_path, exist_ok=True)
 
     def record_audio(self, output_path='input.wav', duration=5, fs=16000):
