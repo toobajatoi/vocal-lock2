@@ -1,6 +1,6 @@
 import os
 import json
-import whisper
+import openai_whisper as whisper
 import numpy as np
 import soundfile as sf
 import sounddevice as sd

@@ -1,8 +1,9 @@
-openai-whisper
-pyAudioAnalysis
-numpy
-scikit-learn
-sounddevice
-soundfile
-pyaudio
-streamlit
+torch==2.0.1
+openai-whisper==20231117
+pyAudioAnalysis==0.3.14
+numpy==1.24.3
+scikit-learn==1.3.0
+sounddevice==0.4.6
+soundfile==0.12.1
+pyaudio==0.2.13
+streamlit==1.28.0
