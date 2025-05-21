@@ -143,4 +143,64 @@ vocal-lock/
 MIT
 
 ## Contributing
-Feel free to submit issues and enhancement requests! 
+Feel free to submit issues and enhancement requests!
+
+## Running in Visual Studio Code
+
+1. **Open the Project**
+   - Open VS Code
+   - Go to File > Open Folder
+   - Select the `vocal-lock2` folder
+
+2. **Set Up Python Environment**
+   - Open a new terminal in VS Code (Terminal > New Terminal)
+   - Create a virtual environment:
+   ```bash
+   python -m venv venv
+   ```
+   - Activate the virtual environment:
+   ```bash
+   # Windows
+   .\venv\Scripts\activate
+   
+   # Linux/Mac
+   source venv/bin/activate
+   ```
+   - Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Select Python Interpreter**
+   - Press `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (Mac)
+   - Type "Python: Select Interpreter"
+   - Choose the interpreter from your virtual environment (it should be in the `venv` folder)
+
+4. **Run the Application**
+   - **For Command Line Interface:**
+     - Open `main.py`
+     - Click the "Run" button (▶️) in the top right corner
+     - Or use the terminal:
+     ```bash
+     python main.py
+     ```
+
+   - **For Web Interface:**
+     - Open `app.py`
+     - Click the "Run" button (▶️) in the top right corner
+     - Or use the terminal:
+     ```bash
+     streamlit run app.py
+     ```
+
+5. **Debugging**
+   - Set breakpoints by clicking to the left of line numbers
+   - Press F5 to start debugging
+   - Use the debug toolbar to step through code
+   - Check the Debug Console for output
+
+6. **VS Code Extensions (Recommended)**
+   - Python (Microsoft)
+   - Python Extension Pack
+   - Python Indent
+   - Python Docstring Generator 
