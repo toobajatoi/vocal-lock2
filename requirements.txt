@@ -1,0 +1,8 @@
+whisper
+pyAudioAnalysis
+numpy
+scikit-learn
+sounddevice
+soundfile
+pyaudio
+streamlit
