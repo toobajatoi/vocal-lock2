@@ -4,6 +4,9 @@ from VoiceEnroller import VoiceEnroller
 from VoiceAuthenticator import VoiceAuthenticator
 import time
 import tempfile
+import numpy as np
+import matplotlib.pyplot as plt
+import soundfile as sf
 
 # Set page config
 st.set_page_config(
@@ -31,16 +34,39 @@ st.markdown("""
     .stAlert {
         border-radius: 5px;
     }
+    .recording-status {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #4CAF50;
+        text-align: center;
+        margin: 20px 0;
+    }
     </style>
     """, unsafe_allow_html=True)
 
 # Initialize session state
 if 'temp_dir' not in st.session_state:
     st.session_state.temp_dir = tempfile.mkdtemp()
+if 'recording_status' not in st.session_state:
+    st.session_state.recording_status = "Ready to record"
 
 # Initialize authenticator and enroller
 enroller = VoiceEnroller()
 authenticator = VoiceAuthenticator()
+
+def plot_audio_waveform(audio_path):
+    # Read audio file
+    data, samplerate = sf.read(audio_path)
+    
+    # Create figure
+    fig, ax = plt.subplots(figsize=(10, 3))
+    ax.plot(data)
+    ax.set_title('Audio Waveform')
+    ax.set_xlabel('Sample')
+    ax.set_ylabel('Amplitude')
+    ax.grid(True)
+    
+    return fig
 
 # App title and description
 st.title("🔒 Vocal Lock")
@@ -62,14 +88,20 @@ if page == "Enroll":
             if not username or not passphrase:
                 st.error("Please enter both username and passphrase")
             else:
-                with st.spinner("Recording in progress..."):
-                    st.info("Speak your passphrase when ready...")
-                    time.sleep(1)  # Give user time to prepare
+                # Recording section
+                st.markdown('<div class="recording-status">🎤 Recording in progress...</div>', unsafe_allow_html=True)
+                st.info("Speak your passphrase when ready...")
+                time.sleep(1)  # Give user time to prepare
+                
+                # Record audio
+                audio_path = enroller.record_audio()
+                
+                if audio_path:
+                    # Show audio waveform
+                    st.pyplot(plot_audio_waveform(audio_path))
                     
-                    # Record audio using enroller's method
-                    audio_path = enroller.record_audio()
-                    if audio_path:
-                        # Enroll user
+                    # Enroll user
+                    with st.spinner("Processing voice data..."):
                         success, message = enroller.enroll_user(username, audio_path, passphrase)
                         
                         if success:
@@ -77,7 +109,13 @@ if page == "Enroll":
                             st.balloons()
                         else:
                             st.error(message)
-                            st.info("Tips: Speak clearly and exactly match the passphrase text.")
+                            st.info("""
+                            Tips for better enrollment:
+                            1. Speak clearly and at a normal pace
+                            2. Ensure minimal background noise
+                            3. Keep a consistent distance from the microphone
+                            4. Try to match the passphrase exactly
+                            """)
 
 elif page == "Authenticate":
     st.header("Authenticate User")
@@ -90,14 +128,20 @@ elif page == "Authenticate":
             if not username:
                 st.error("Please enter username")
             else:
-                with st.spinner("Recording in progress..."):
-                    st.info("Speak your passphrase when ready...")
-                    time.sleep(1)  # Give user time to prepare
+                # Recording section
+                st.markdown('<div class="recording-status">🎤 Recording in progress...</div>', unsafe_allow_html=True)
+                st.info("Speak your passphrase when ready...")
+                time.sleep(1)  # Give user time to prepare
+                
+                # Record audio
+                audio_path = authenticator.record_audio()
+                
+                if audio_path:
+                    # Show audio waveform
+                    st.pyplot(plot_audio_waveform(audio_path))
                     
-                    # Record audio using authenticator's method
-                    audio_path = authenticator.record_audio()
-                    if audio_path:
-                        # Authenticate user
+                    # Authenticate user
+                    with st.spinner("Verifying voice..."):
                         success, message = authenticator.authenticate(username, audio_path)
                         
                         if success:
@@ -105,6 +149,13 @@ elif page == "Authenticate":
                             st.balloons()
                         else:
                             st.error(message)
+                            st.info("""
+                            Tips for better authentication:
+                            1. Speak clearly and at a normal pace
+                            2. Ensure minimal background noise
+                            3. Keep a consistent distance from the microphone
+                            4. Try to match your enrolled passphrase exactly
+                            """)
 
 else:  # User List
     st.header("Enrolled Users")
